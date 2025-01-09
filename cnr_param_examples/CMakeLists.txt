@@ -64,7 +64,7 @@ endif()
 # ##############################################################################
 # EXECUTABLE ###########################################################
 add_executable(ros2_parameters_server_node
-               ${CMAKE_CURRENT_SOURCE_DIR}/example/ros2_parameters_server_node.cpp)
+               ${CMAKE_CURRENT_SOURCE_DIR}/src/ros2_parameters_server_node.cpp)
 
 target_include_directories(ros2_parameters_server_node
                            PUBLIC ${rclcpp_INCLUDE_DIRS})
@@ -72,14 +72,14 @@ target_link_libraries(ros2_parameters_server_node cnr_param::cnr_param ${rclcpp_
 
 # EXECUTABLE ###########################################################
 add_executable(ros2_parameters_client_node
-               ${CMAKE_CURRENT_SOURCE_DIR}/example/ros2_parameters_client_node.cpp)
+               ${CMAKE_CURRENT_SOURCE_DIR}/src/ros2_parameters_client_node.cpp)
 target_include_directories(ros2_parameters_client_node
                            PUBLIC ${rclcpp_INCLUDE_DIRS})
 target_link_libraries(ros2_parameters_client_node cnr_param::cnr_param)
 
 # # EXECUTABLE ###########################################################
 add_executable(mapped_file_module
-               ${CMAKE_CURRENT_SOURCE_DIR}/example/mapped_file_module.cpp)
+               ${CMAKE_CURRENT_SOURCE_DIR}/src/mapped_file_module.cpp)
 target_compile_definitions(mapped_file_module
                PRIVATE TEST_DIR="${CMAKE_CURRENT_LIST_DIR}")
 
