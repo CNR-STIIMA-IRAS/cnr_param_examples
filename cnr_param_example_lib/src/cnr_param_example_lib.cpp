@@ -6,9 +6,9 @@
 #include <stdexcept>
 #include <string>
 
-#if MAPPED_FILE_MODULE
+#include <cnr_param_example_lib/mapped_file_with_lib.h>
 
-#include "cnr_param_example_lib/mapped_file_with_lib.h"
+#if MAPPED_FILE_MODULE
 
 ParamManager::ParamManager(int argc, const char* argv[])
 {
@@ -25,13 +25,6 @@ ParamManager::ParamManager(int argc, const char* argv[])
   cnr::param::mapped_file::ArgParser args(argc, argv, default_shmem_name);
   cnr::param::mapped_file::YAMLParser yaml_parser(args.getNamespacesMap());
   cnr::param::mapped_file::YAMLStreamer yaml_streamer(yaml_parser.root(), param_root_directory_);
-}
-
-#else
-
-ParamManager::ParamManager()
-{
-    throw std::runtime_error("This test is the yaml server test, availalbe for the MAPPED_FILE_MODULE, but the MAPPED_FILE_MODULE is not defined.\n");
 }
 
 #endif

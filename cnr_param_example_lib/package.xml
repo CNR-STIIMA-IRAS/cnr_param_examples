@@ -12,6 +12,7 @@
   <buildtool_depend condition="$ROS_VERSION == ''">cmake</buildtool_depend>
   
   <build_depend>cnr_param</build_depend>
+  <exec_depend>cnr_param</exec_depend>
     
   <test_depend>curl</test_depend>
   <test_depend condition="$ROS_VERSION == 1">rostest</test_depend>

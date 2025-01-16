@@ -1,0 +1,24 @@
+# - Config file for the cnr_param package
+# It defines the following variables
+#  cnr_param_example_lib_test_INCLUDE_DIRS - include directories for FooBar
+#  cnr_param_example_lib_test_LIBRARIES    - libraries to link against
+#  cnr_param_example_lib_test_EXECUTABLE   - the bar executable
+
+# Here I copy the content of the file ${CMAKE_CURRENT_LIST_DIR}/cnr_yaml-compile-options.cmake 
+@COMPILE_OPTIONS_FILE_CONTENT@
+# cnr_yaml-dependencies copied!
+
+# Here I copy the content of the file ${CMAKE_CURRENT_LIST_DIR}/cnr_yaml-dependencies.cmake 
+@DEPENDENCIES_FILE_CONTENT@
+# cnr_yaml-dependencies copied!
+
+set(cnr_param_example_lib_test_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+include(CMakeFindDependencyMacro)
+find_dependency(cnr_param REQUIRED)
+
+# These are IMPORTED targets created by cnr_paramTargets.cmake
+set(cnr_param_EXECUTABLES @EXPORTED_EXECUTABLE_TARGETS_LIST@)
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${CMAKE_CURRENT_LIST_DIR}/cnr_param_example_lib_testTargets.cmake")

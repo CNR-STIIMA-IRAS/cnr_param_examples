@@ -1,0 +1,2 @@
+set(cnr_param_example_lib_BUILD_AS_A_CATKIN_PACKAGE @BUILD_AS_A_CATKIN_PACKAGE@)
+set(cnr_param_example_lib_BUILD_AS_AN_AMENT_PACKAGE @BUILD_AS_AN_AMENT_PACKAGE@)

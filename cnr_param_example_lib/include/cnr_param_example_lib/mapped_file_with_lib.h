@@ -9,13 +9,14 @@
 #include <string>
 #include <iostream>
 
+#include <cnr_param/cnr_param.h>
+
 #if MAPPED_FILE_MODULE
 
 #include <boost/interprocess/detail/os_file_functions.hpp>
 
 #include <cnr_yaml/eigen.h>
 
-#include <cnr_param/cnr_param.h>
 #include <cnr_param/core/string.h>
 
 #include <cnr_param/mapped_file/args_parser.h>
