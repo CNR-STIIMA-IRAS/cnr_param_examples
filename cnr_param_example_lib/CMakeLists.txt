@@ -47,13 +47,11 @@ if(BUILD_AS_A_CATKIN_PACKAGE)
     message(FATAL_ERROR "You selected the option BUILD_AS_A_CATKIN_PACKAGE\
        but the env variable ROS_VERSION is '$ENV{ROS_VERSION}'")
   endif()
-  find_package(catkin REQUIRED)
 elseif(BUILD_AS_AN_AMENT_PACKAGE)
   if(NOT $ENV{ROS_VERSION} STREQUAL "2")
     message(FATAL_ERROR "You selected the option BUILD_AS_AN_AMENT_PACKAGE\
         but the env variable ROS_VERSION is '$ENV{ROS_VERSION}'")
   endif()
-  find_package(ament_cmake REQUIRED)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-compile-options.cmake.in"
