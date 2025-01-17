@@ -6,12 +6,10 @@
 include(CMakeFindDependencyMacro)
 
 if(${PROJECT_NAME} STREQUAL "cnr_param_example_lib")
-  message(STATUS "Loading ''cnr_param_example_lib-dependencies.cmake'' for the project ''${PROJECT_NAME}''")
   macro(_find_package)
     find_package(${ARGN})
   endmacro()
 else()
-  message(STATUS "Running Project: ${PROJECT_NAME}. Loading cnr_param_example_lib-dependencies.cmake from cnr_param_example_libConfig.cmake")
   include(CMakeFindDependencyMacro)
 
   macro(_find_package)
@@ -19,10 +17,20 @@ else()
   endmacro()
 endif()
 
+# message(STATUS "The 'find_package' will look for modules under the following paths: 
+#           CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH};
+#           CMAKE_FRAMEWORK_PATH=${CMAKE_FRAMEWORK_PATH};
+#           CMAKE_APPBUNDLE_PATH=${CMAKE_APPBUNDLE_PATH};
+#           CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH};
+#           CMAKE_SYSTEM_PREFIX_PATH=${CMAKE_SYSTEM_PREFIX_PATH};
+#           CMAKE_SYSTEM_FRAMEWORK_PATH=${CMAKE_SYSTEM_FRAMEWORK_PATH};
+#           CMAKE_SYSTEM_APPBUNDLE_PAT=${CMAKE_SYSTEM_APPBUNDLE_PATH}")
+
+
 # ##########################################################################################
 if(cnr_param_example_lib_BUILD_AS_ABUILD_AS_A_CATKIN_PACKAGE OR BUILD_AS_A_CATKIN_PACKAGE)
   _find_package(catkin REQUIRED COMPONENTS cnr_param)
 else()
-  _find_package(cnr_param REQUIRED)
+  find_package(cnr_param REQUIRED)
 endif()
 

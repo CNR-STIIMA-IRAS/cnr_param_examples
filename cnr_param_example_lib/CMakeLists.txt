@@ -121,7 +121,7 @@ list(APPEND TARGETS_LIST cnr_param_example_lib)
 if(BUILD_AS_A_CATKIN_PACKAGE)
   set(CNR_PACKAGE_LIB_DESTINATION     "${CATKIN_GLOBAL_LIB_DESTINATION}")
   set(CNR_PACKAGE_BIN_DESTINATION     "${CATKIN_GLOBAL_LIB_DESTINATION}/${PROJECT_NAME}")
-  set(CNR_PACKAGE_INCLUDE_DESTINATION "${CATKIN_GLOBAL_INCLUDE_DESTINATION}/${PROJECT_NAME}")
+  set(CNR_PACKAGE_INCLUDE_DESTINATION "${CATKIN_GLOBAL_INCLUDE_DESTINATION}")
   set(CNR_PACKAGE_CONFIG_DESTINATION  "${CATKIN_GLOBAL_SHARE_DESTINATION}/${PROJECT_NAME}")
 else()
   set(CNR_PACKAGE_LIB_DESTINATION "lib")
@@ -137,7 +137,7 @@ endif()
 # CONFIGURE THE PACKAGE                                           ##
 # ##############################################################################
 if(NOT BUILD_AS_A_CATKIN_PACKAGE)
-  cnr_cmake_package_file(cnr_param_example_lib)
+  cnr_cmake_package_file(cnr_param_example_lib "")
 endif()
 # ##############################################################################
 # END - CONFIGURE THE PACKAGE                                           ##
@@ -148,10 +148,17 @@ endif()
 # ##############################################################################
 install(
   DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CNR_PACKAGE_INCLUDE_DESTINATION}
+  DESTINATION ${CNR_PACKAGE_INCLUDE_DESTINATION}/${PROJECT_NAME}
   FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
   PATTERN ".svn" EXCLUDE)
 
+install(
+    TARGETS cnr_param_example_lib
+    EXPORT "${TARGETS_EXPORT_NAME}"
+    ARCHIVE DESTINATION ${CNR_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CNR_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CNR_PACKAGE_BIN_DESTINATION}
+)
 
 if(NOT BUILD_AS_A_CATKIN_PACKAGE)
   # ------------------------------------------------------------------------------
@@ -159,7 +166,7 @@ if(NOT BUILD_AS_A_CATKIN_PACKAGE)
   install(
     EXPORT "${TARGETS_EXPORT_NAME}"
     NAMESPACE "${CONFIG_NAMESPACE}"
-    DESTINATION "${CNR_PACKAGE_CONFIG_DESTINATION}"
+    DESTINATION "${CNR_PACKAGE_CONFIG_DESTINATION}/${PROIECT_NAME}"
     FILE ${TARGETS_EXPORT_NAME}.cmake)
 
   # ------------------------------------------------------------------------------

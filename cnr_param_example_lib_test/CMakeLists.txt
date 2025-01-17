@@ -95,6 +95,7 @@ endif()
 # ##############################################################################
 # EXAMPLE
 # ##############################################################################
+message(STATUS "DEPENDENCIES_TARGETS: ${DEPENDENCIES_TARGETS}")
 add_executable(mapped_file_module_with_lib
                ${CMAKE_CURRENT_SOURCE_DIR}/src/mapped_file_module_with_lib.cpp)
 target_compile_definitions(mapped_file_module_with_lib 
