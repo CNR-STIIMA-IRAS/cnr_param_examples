@@ -34,3 +34,4 @@
 build/
 *.txt.user
 .vscode/
+cnr_param_example_lib/cmake/cnr_param_example_lib-compile-options.cmake
