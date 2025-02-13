@@ -2,15 +2,23 @@
 # It defines the following variables
 #  cnr_param_example_lib_INCLUDE_DIRS - include directories for FooBar
 #  cnr_param_example_lib_LIBRARIES    - libraries to link against
-#  cnr_param_example_lib_EXECUTABLE   - the bar executable
-
-set(cnr_param_example_lib_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
 
 include(CMakeFindDependencyMacro)
 find_dependency(cnr_param REQUIRED)
 
-# These are IMPORTED targets created by cnr_paramTargets.cmake
-set(cnr_param_EXECUTABLES @EXPORTED_EXECUTABLE_TARGETS_LIST@)
+# Build Options 
+set(cnr_param_example_lib_BUILD_AS_A_CATKIN_PACKAGE  @BUILD_AS_A_CATKIN_PACKAGE@ )
+
+set(cnr_param_example_lib_INCLUDE_DIRS  "@CONF_INCLUDE_DIRS@")
+set(cnr_param_example_lib_LIBRARIES     "@EXPORTED_LIBRARY_TARGETS_LIST@")
+set(cnr_param_example_RPATH             "@EXPORTED_LIBRARY_TARGET_RPATH@")
 
 # Our library dependencies (contains definitions for IMPORTED targets)
-include("${CMAKE_CURRENT_LIST_DIR}/cnr_param_example_libTargets.cmake")
+include(@CMAKE_CURRENT_LIST_DIR@/cnr_param_example_libTargets.cmake")
+
+set_target_properties(cnr_param_example_lib::cnr_param_example_lib PROPERTIES
+  IMPORTED_LOCATION_NOCONFIG "${cnr_param_example_lib_RPATH}/libcnr_param_example_lib.so"
+  BUILD_RPATH "${cnr_param_example_lib_RPATH}"
+  INSTALL_RPATH "${cnr_param_example_lib_RPATH}"
+)
+

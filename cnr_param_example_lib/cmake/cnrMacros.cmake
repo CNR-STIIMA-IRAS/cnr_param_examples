@@ -187,7 +187,7 @@ endmacro()
 #
 # cnr_cmake_package_file
 #
-macro(cnr_cmake_package_file LIBRARY_TARGETS_LIST EXECUTABLE_TARGETS_LIST)
+macro(cnr_cmake_package_file LIBRARY_TARGETS_LIST)
 
   set(CONFIG_NAMESPACE "${PROJECT_NAME}::")
   set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
@@ -219,31 +219,16 @@ macro(cnr_cmake_package_file LIBRARY_TARGETS_LIST EXECUTABLE_TARGETS_LIST)
     endif()
   endforeach()
 
-  foreach(_EXE_TARGET ${EXECUTABLE_TARGETS_LIST})
-    get_target_property(target_name ${_EXE_TARGET} OUTPUT_NAME)
-    list(
-      APPEND DEPENDENCIES_EXE
-      "${CMAKE_INSTALL_PREFIX}/${CNR_PACKAGE_LIB_DESTINATION}/${target_name}")
-  endforeach()
 
   list(REMOVE_DUPLICATES DEPENDENCIES_LINK_LIBRARIES)
   list(REMOVE_DUPLICATES DEPENDENCIES_INCLUDE_DIRS)
-  list(REMOVE_DUPLICATES DEPENDENCIES_EXE)
-
+  
   set(EXPORTED_TARGET_INCLUDE_DIRS "${DEPENDENCIES_INCLUDE_DIRS}")
   set(EXPORTED_LIBRARY_TARGETS_LIST "${DEPENDENCIES_LINK_LIBRARIES}")
-  set(EXPORTED_EXECUTABLE_TARGETS_LIST "${DEPENDENCIES_EXE}")
-  set(EXPORTED_LIBRARY_TARGET_RPATH
-      "${CMAKE_INSTALL_PREFIX}/${CNR_PACKAGE_LIB_DESTINATION}")
+  set(EXPORTED_LIBRARY_TARGET_RPATH "${CMAKE_INSTALL_PREFIX}/${CNR_PACKAGE_LIB_DESTINATION}")
 
   include(CMakePackageConfigHelpers)
-
-  file(READ "${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}-compile-options.cmake"
-      COMPILE_OPTIONS_FILE_CONTENT)
-
-  file(READ "${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}-dependencies.cmake"
-       DEPENDENCIES_FILE_CONTENT)
-    # ------------------------------------------------------------------------------
+    
   # Configure <PROJECT_NAME>ConfigVersion.cmake common to build and install tree
   write_basic_package_version_file(
     "${VERSION_CONFIG}"

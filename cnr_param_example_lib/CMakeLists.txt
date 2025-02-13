@@ -13,17 +13,6 @@ project(
   LANGUAGES CXX)
 
 cnr_set_flags()
-# use, i.e. don't skip the full RPATH for the build tree
-set(CMAKE_SKIP_BUILD_RPATH FALSE)
-
-# when building, don't use the install RPATH already
-# (but later on when installing)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-
-# add the automatically determined parts of the RPATH
-# which point to directories outside the build tree to the install RPATH
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # ##############################################################################
 # END - PRELIMINARIES     ##
 # ##############################################################################
@@ -32,30 +21,15 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # OPTIONS                                                                     ##
 # ##############################################################################
 option(CMAKE_EXPORT_COMPILE_COMMANDS "Export Compile Commands" ON)
-option(BUILD_UNIT_TESTS "Build the unit tests" ON)
-option(BUILD_AS_A_CATKIN_PACKAGE "Build the library using CATKIN tools" OFF)
-option(BUILD_AS_AN_AMENT_PACKAGE "Build the library using AMENT tools" OFF)
+option(BUILD_AS_A_CATKIN_PACKAGE "Build as a catkin package" OFF)
 
 if(BUILD_AS_A_CATKIN_PACKAGE)
-  if(BUILD_AS_AN_AMENT_PACKAGE)
-    message(
-      FATAL_ERROR
-        "You selected both the options BUILD_AS_A_CATKIN_PACKAGE and BUILD_AS_AN_AMENT_PACKAGE.\
-      Please check your environment and re-run configuration.")
-  endif()
-  if(NOT $ENV{ROS_VERSION} STREQUAL "1")
-    message(FATAL_ERROR "You selected the option BUILD_AS_A_CATKIN_PACKAGE\
-       but the env variable ROS_VERSION is '$ENV{ROS_VERSION}'")
-  endif()
-elseif(BUILD_AS_AN_AMENT_PACKAGE)
-  if(NOT $ENV{ROS_VERSION} STREQUAL "2")
-    message(FATAL_ERROR "You selected the option BUILD_AS_AN_AMENT_PACKAGE\
-        but the env variable ROS_VERSION is '$ENV{ROS_VERSION}'")
+  if(NOT "$ENV{ROS_VERSION}" STREQUAL "1")
+    message(FATAL_ERROR
+      "You selected CATKIN compilation option, but ROS environment is not sourced.")
   endif()
 endif()
 
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-compile-options.cmake.in"
-               "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-compile-options.cmake" @ONLY)
 # ##############################################################################
 # END OPTIONS                                                                 ##
 # ##############################################################################
@@ -63,14 +37,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-compile-option
 # ##############################################################################
 # DEPENDENCIES                                                                ##
 # ##############################################################################
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-dependencies.cmake)
-
-if(BUILD_AS_A_CATKIN_PACKAGE AND (NOT cnr_param_BUILD_AS_A_CATKIN_PACKAGE))
-  message(FATAL_ERROR
-    "The package cnr_param has been found, but it must be compiled as a CATKIN package as the package cnr_param_example_lib")
-elseif((NOT BUILD_AS_A_CATKIN_PACKAGE) AND cnr_param_BUILD_AS_A_CATKIN_PACKAGE)
-  message(FATAL_ERROR
-    "The package cnr_param has been found, but the package cnr_param_example_lib must be compiled as an CATKIN package as cnr_param")
+if(cnr_param_example_lib_BUILD_AS_A_CATKIN_PACKAGE OR BUILD_AS_A_CATKIN_PACKAGE)
+  find_package(catkin REQUIRED COMPONENTS cnr_param)
+else()
+  find_package(cnr_param REQUIRED)
 endif()
 
 if(BUILD_AS_A_CATKIN_PACKAGE)
@@ -137,7 +107,7 @@ endif()
 # CONFIGURE THE PACKAGE                                           ##
 # ##############################################################################
 if(NOT BUILD_AS_A_CATKIN_PACKAGE)
-  cnr_cmake_package_file(cnr_param_example_lib "")
+  cnr_cmake_package_file(cnr_param_example_lib)
 endif()
 # ##############################################################################
 # END - CONFIGURE THE PACKAGE                                           ##
